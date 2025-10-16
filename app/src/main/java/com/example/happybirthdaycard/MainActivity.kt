@@ -44,6 +44,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TaskManagerApp() {
     Column(
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -67,11 +68,6 @@ fun TaskManagerApp() {
 @Composable
 fun GreetingPreview() {
     HappyBirthdayCardTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            TaskManagerApp()
-        }
+        TaskManagerApp()
     }
 }
