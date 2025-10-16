@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun QuadrantApp() {
     Column(modifier = Modifier.fillMaxSize()) {
-        Row(modifier = Modifier.weight(1f)) {
+        Row(Modifier.weight(1f)) {
             QuadrantCard(
                 title = stringResource(R.string.txt_text_composable),
                 description = stringResource(R.string.txt_text_composable_desc),
@@ -63,7 +63,7 @@ fun QuadrantApp() {
                 modifier = Modifier.weight(1f)
             )
         }
-        Row(modifier = Modifier.weight(1f)) {
+        Row(Modifier.weight(1f)) {
             QuadrantCard(
                 title = stringResource(R.string.txt_text_composable),
                 description = stringResource(R.string.txt_text_composable_desc),
