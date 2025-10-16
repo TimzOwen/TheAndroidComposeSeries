@@ -47,7 +47,10 @@ A quick series of small Jetpack Compose apps to practice core layout and UI patt
 
 ## Getting started
 - Open the project in Android Studio (Giraffe+ recommended).
-- Choose a sample composable/activity to run, or build the Debug APK via Gradle.
+- Make sure you have an Android Emulator or device connected.
+- Select the desired app branch from the branch selector (e.g. `happy-birthday`,
+- Choose a sample branch and checkout then run, or build the Debug APK via Gradle.
+
 
 Quick build from terminal (macOS/zsh):
 
