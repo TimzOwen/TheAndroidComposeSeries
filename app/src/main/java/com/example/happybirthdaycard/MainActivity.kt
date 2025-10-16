@@ -35,57 +35,62 @@ class MainActivity : ComponentActivity() {
                 ) {
                     ComposeApp()
                 }
-                }
             }
         }
     }
+}
 
-    @Composable
-    fun ComposeApp() {
-        ComposeArticleCard(
-            image = painterResource(R.drawable.bg_compose_background),
-            title = stringResource(R.string.text_article_titile),
-            shortText = stringResource(R.string.text_article_short),
-            longText = stringResource(R.string.text_article_long)
+@Composable
+fun ComposeApp() {
+    ComposeArticleCard(
+        image = painterResource(R.drawable.bg_compose_background),
+        title = stringResource(R.string.text_article_titile),
+        shortText = stringResource(R.string.text_article_short),
+        longText = stringResource(R.string.text_article_long)
+    )
+}
+
+@Composable
+fun ComposeArticleCard(
+    modifier: Modifier = Modifier,
+    image: Painter,
+    title: String,
+    shortText: String,
+    longText: String
+) {
+    Column(modifier = modifier) {
+        Image(
+            modifier = modifier.fillMaxWidth(),
+            painter = image,
+            contentDescription = null
+        )
+        Text(
+            text = title,
+            fontSize = 24.sp,
+            modifier = modifier.padding(16.dp)
+        )
+        Text(
+            text = shortText,
+            modifier = modifier.padding(horizontal = 16.dp),
+            textAlign = TextAlign.Justify
+        )
+        Text(
+            text = longText,
+            modifier = modifier.padding(16.dp),
+            textAlign = TextAlign.Justify
         )
     }
+}
 
-    @Composable
-    fun ComposeArticleCard(
-        modifier: Modifier = Modifier,
-        image: Painter,
-        title: String,
-        shortText: String,
-        longText: String
-    ) {
-        Column(modifier = modifier.fillMaxSize()) {
-            Image(
-                modifier = modifier.fillMaxWidth(),
-                painter = image,
-                contentDescription = null
-            )
-            Text(
-                text = title,
-                fontSize = 24.sp,
-                modifier = modifier.padding(16.dp)
-            )
-            Text(
-                text = shortText,
-                modifier = modifier.padding(horizontal = 16.dp),
-                textAlign = TextAlign.Justify
-            )
-            Text(
-                text = longText,
-                modifier = modifier.padding(16.dp),
-                textAlign = TextAlign.Justify
-            )
-        }
-    }
-
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        HappyBirthdayCardTheme {
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    HappyBirthdayCardTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
             ComposeApp()
         }
     }
+}
