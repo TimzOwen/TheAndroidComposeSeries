@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,11 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingText(
-                        message = "Happy Birthday Timz! ",
-                        from = "from Zuri",
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    TaskManagerApp()
                 }
             }
         }
@@ -41,23 +42,23 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun GreetingText(
-    message: String,
-    from: String,
-    modifier: Modifier = Modifier
-) {
+fun TaskManagerApp() {
     Column(
         verticalArrangement = Arrangement.Center,
-        modifier = modifier
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = message,
-            fontSize = 100.sp,
-            lineHeight = 116.sp
+        Image(
+            painter = painterResource(R.drawable.ic_task_completed),
+            contentDescription = null
         )
         Text(
-            text = from,
-            fontSize = 36.sp
+            text = stringResource(R.string.all_tasks_completed),
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(top = 24.dp, bottom = 8.dp)
+        )
+        Text(
+            text = stringResource(R.string.nice_work),
+            fontSize = 16.sp
         )
     }
 }
@@ -66,6 +67,11 @@ fun GreetingText(
 @Composable
 fun GreetingPreview() {
     HappyBirthdayCardTheme {
-        GreetingText(message = "Happy Birthday Sam! ", from = "from Emma")
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            TaskManagerApp()
+        }
     }
 }
