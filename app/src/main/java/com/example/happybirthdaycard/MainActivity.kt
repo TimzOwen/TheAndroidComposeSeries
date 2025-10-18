@@ -4,18 +4,39 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.happybirthdaycard.ui.theme.HappyBirthdayCardTheme
 
 class MainActivity : ComponentActivity() {
@@ -28,44 +49,127 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GreetingText(
-                        message = "Happy Birthday Timz! ",
-                        from = "from Zuri",
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    LemonadeApp()
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LemonadeApp() {
+    var currentStep by remember { mutableStateOf(1) }
+    var squeezeCount by remember { mutableStateOf(0) }
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        fontWeight = FontWeight.Bold
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Yellow)
+            )
+        }
+    ) { innerPadding ->
+
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            when (currentStep) {
+                1 -> LemonadeCardComponent(
+                    imageResId = R.drawable.lemon_tree,
+                    imageContentDescResId = R.string.app_name,
+                    imageDescriptionResId = R.string.lemon_select,
+                    onImageClick = {
+                        currentStep = 2
+                        squeezeCount = (2..4).random()
+                    }
+                )
+
+                2 -> LemonadeCardComponent(
+                    imageResId = R.drawable.lemon_squeeze,
+                    imageContentDescResId = R.string.lemon_squeeze,
+                    imageDescriptionResId = R.string.lemonade_content_description,
+                    onImageClick = {
+                        squeezeCount--
+                        if (squeezeCount == 0) {
+                            currentStep = 3
+                        }
+                    })
+
+                3 -> LemonadeCardComponent(
+                    imageResId = R.drawable.lemon_drink,
+                    imageContentDescResId = R.string.lemon_drink,
+                    imageDescriptionResId = R.string.lemonade_content_description,
+                    onImageClick = {
+                     currentStep = 4
+                    }
+                )
+                4 -> LemonadeCardComponent(
+                    imageResId = R.drawable.lemon_restart,
+                    imageContentDescResId = R.string.lemon_empty_glass,
+                    imageDescriptionResId = R.string.empty_glass_content_description,
+                    onImageClick = {
+                        currentStep = 1
+                    }
+                )
+            }
+        }
+    }
+}
 
 @Composable
-fun GreetingText(
-    message: String,
-    from: String,
+fun LemonadeCardComponent(
+    imageResId: Int,
+    imageDescriptionResId: Int,
+    imageContentDescResId: Int,
+    onImageClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
-        modifier = modifier
+    Box(
+        modifier = modifier,
     ) {
-        Text(
-            text = message,
-            fontSize = 100.sp,
-            lineHeight = 116.sp
-        )
-        Text(
-            text = from,
-            fontSize = 36.sp
-        )
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(
+                onClick = onImageClick,
+                shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius)),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary)
+
+            ) {
+                Image(
+                    painter = painterResource(imageResId),
+                    contentDescription = stringResource(imageContentDescResId),
+                    modifier = Modifier
+                        .width(dimensionResource(R.dimen.button_image_width))
+                        .height(dimensionResource(R.dimen.button_image_height))
+                        .padding(dimensionResource(R.dimen.button_interior_padding))
+                )
+            }
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_vertical)))
+            Text(
+                text = stringResource(imageDescriptionResId),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     HappyBirthdayCardTheme {
-        GreetingText(message = "Happy Birthday Sam! ", from = "from Emma")
+        LemonadeApp()
     }
 }
