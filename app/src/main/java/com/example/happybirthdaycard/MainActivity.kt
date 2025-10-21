@@ -34,8 +34,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -95,21 +97,19 @@ fun ArtWithTitle(
                     textAlign = TextAlign.Start,
                     lineHeight = 30.sp
                 )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                ){
-                    Text(
-                        text = artistName,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = modifier.padding(top = 8.dp)
-                    )
-                    Text(
-                        text = "($yearOfRelease)",
-                        fontSize = 16.sp,
-                        modifier = modifier.padding(top = 8.dp)
-                    )
-                }
+                Text(
+                    text = buildAnnotatedString {
+                        append(artistName)
+                        append(" ")
+                        withStyle(
+                            style = SpanStyle(color = Color.Gray, fontSize = 16.sp)
+                        ) {
+                            append("($yearOfRelease)")
+                        }
+                    },
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(8.dp)
+                )
             }
         }
     }
