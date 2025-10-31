@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +19,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -53,7 +54,6 @@ import androidx.compose.ui.unit.dp
 import com.example.happybirthdaycard.dog.Dog
 import com.example.happybirthdaycard.dog.dogs
 import com.example.happybirthdaycard.ui.theme.WoofTheme
-import kotlin.math.exp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -118,18 +118,25 @@ fun WoofTopBar(modifier: Modifier = Modifier) {
 @Composable
 fun DogCardComponent(dog: Dog) {
     var expanded by remember { mutableStateOf(false) }
+    val bgColor by animateColorAsState(
+        targetValue = if (expanded) MaterialTheme.colorScheme.tertiaryContainer else
+            MaterialTheme.colorScheme.primaryContainer,
+    )
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(topEnd = 16.dp, bottomStart = 16.dp)
     ) {
-        Column(modifier = Modifier
-            .animateContentSize(
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioNoBouncy,
-                    stiffness = Spring.StiffnessLow
+        Column(
+            modifier = Modifier
+                .animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioNoBouncy,
+                        stiffness = Spring.StiffnessLow
+                    )
                 )
-            )) {
+                .background(bgColor)
+        ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Box(
                     modifier = Modifier
@@ -163,17 +170,17 @@ fun DogCardComponent(dog: Dog) {
                 Spacer(modifier = Modifier.weight(1f))
                 DogItemButton(
                     expanded = expanded,
-                    onClick = {expanded = !expanded}
+                    onClick = { expanded = !expanded }
                 )
             }
             if (expanded)
-            DogHobby(
-                dogHobby = dog.dogDescriptionResId,
-                modifier = Modifier.padding(
-                    vertical = dimensionResource(R.dimen.padding_medium),
-                    horizontal = dimensionResource(R.dimen.padding_small)
+                DogHobby(
+                    dogHobby = dog.dogDescriptionResId,
+                    modifier = Modifier.padding(
+                        vertical = dimensionResource(R.dimen.padding_medium),
+                        horizontal = dimensionResource(R.dimen.padding_small)
+                    )
                 )
-            )
         }
     }
 }
