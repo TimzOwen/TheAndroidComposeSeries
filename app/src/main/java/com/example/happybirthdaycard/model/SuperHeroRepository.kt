@@ -3,7 +3,7 @@ package com.example.happybirthdaycard.model
 import com.example.happybirthdaycard.R
 
 object SuperHeroRepository {
-    val heroes = listOf<SuperHero>(
+    val heroes = listOf(
         SuperHero(
             heroName = R.string.hero1,
             heroDescription = R.string.description1,
