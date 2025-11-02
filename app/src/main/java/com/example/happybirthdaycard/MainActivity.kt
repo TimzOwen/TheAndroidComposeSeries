@@ -4,6 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.Spring.DampingRatioLowBouncy
+import androidx.compose.animation.core.Spring.StiffnessVeryLow
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +26,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,6 +38,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,35 +72,60 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HeroApp() {
+    val visibleState = remember { MutableTransitionState(false).apply { targetState = true } }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.app_name)
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.displayLarge
                     )
                 }
             )
         }
     ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+
+        AnimatedVisibility(
+            visibleState = visibleState,
+            enter = fadeIn(
+                animationSpec = spring(dampingRatio = DampingRatioLowBouncy)
+            ),
+            exit = fadeOut()
         ) {
-            items(heroes) { hero ->
-                SuperHeroCardComponent(hero)
+            LazyColumn(
+                modifier = Modifier.padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                itemsIndexed(heroes) { index, hero ->
+                    SuperHeroCardComponent(
+                        superHero = hero,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .animateEnterExit(
+                                enter = slideInVertically(
+                                    animationSpec = spring(
+                                        stiffness = StiffnessVeryLow,
+                                        dampingRatio = DampingRatioLowBouncy
+                                    ),
+                                    initialOffsetY = { it * (index + 1) }
+                                )
+                            )
+                    )
+                }
             }
         }
     }
 }
 
-
 @Composable
-fun SuperHeroCardComponent(superHero: SuperHero) {
+fun SuperHeroCardComponent(
+    modifier: Modifier = Modifier,
+    superHero: SuperHero
+) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Row(
@@ -118,8 +153,7 @@ fun SuperHeroCardComponent(superHero: SuperHero) {
                 modifier = Modifier.size(72.dp)
             ) {
                 Image(
-                    modifier = Modifier
-                        .clip(shape = RoundedCornerShape(8.dp)),
+                    modifier = Modifier.clip(RoundedCornerShape(8.dp)),
                     painter = painterResource(superHero.hereImageRes),
                     contentDescription = stringResource(superHero.heroName),
                 )
@@ -127,7 +161,6 @@ fun SuperHeroCardComponent(superHero: SuperHero) {
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
