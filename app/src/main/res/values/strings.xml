@@ -1,3 +1,55 @@
 <resources>
-    <string name="app_name">HappyBirthdayCard</string>
+    <string name="app_name">30 day Recipe</string>
+
+    <!-- Day Labels -->
+    <string name="day_1">Day 1</string>
+    <string name="day_2">Day 2</string>
+    <string name="day_3">Day 3</string>
+    <string name="day_4">Day 4</string>
+    <string name="day_5">Day 5</string>
+    <string name="day_6">Day 6</string>
+    <string name="day_7">Day 7</string>
+    <string name="day_8">Day 8</string>
+
+    <!-- Recipes with Descriptions -->
+    <string name="recipe_1">Spicy Chickpea Curry</string>
+    <string name="recipe_1_short">A hearty, protein-packed vegetarian curry.</string>
+    <string name="recipe_1_long">This flavorful curry combines chickpeas with aromatic spices,
+        tomatoes, and coconut milk for a comforting, plant-based meal.</string>
+
+    <string name="recipe_2">Garlic Butter Shrimp</string>
+    <string name="recipe_2_short">Juicy shrimp sautéed in garlic butter.</string>
+    <string name="recipe_2_long">Tender shrimp are quickly cooked in a rich garlic butter sauce
+        with a splash of lemon, perfect with rice or pasta.</string>
+
+    <string name="recipe_3">Classic Margherita Pizza</string>
+    <string name="recipe_3_short">A timeless Italian favorite.</string>
+    <string name="recipe_3_long">Crispy pizza dough topped with fresh mozzarella, ripe tomatoes,
+        and fragrant basil leaves for a simple yet delicious meal.</string>
+
+    <string name="recipe_4">Honey Glazed Salmon</string>
+    <string name="recipe_4_short">Sweet and savory salmon fillet.</string>
+    <string name="recipe_4_long">Oven-baked salmon brushed with a honey-soy glaze, creating a
+        tender, flavorful dish that pairs beautifully with vegetables.</string>
+
+    <string name="recipe_5">Creamy Mushroom Pasta</string>
+    <string name="recipe_5_short">Rich pasta in a creamy mushroom sauce.</string>
+    <string name="recipe_5_long">Al dente pasta tossed in a velvety sauce made with mushrooms,
+        garlic, cream, and parmesan for a comforting dinner.</string>
+
+    <string name="recipe_6">Grilled Lemon Chicken</string>
+    <string name="recipe_6_short">Zesty, juicy grilled chicken.</string>
+    <string name="recipe_6_long">Marinated chicken breasts grilled to perfection with lemon juice,
+        olive oil, and herbs for a light, flavorful meal.</string>
+
+    <string name="recipe_7">Vegetable Stir Fry</string>
+    <string name="recipe_7_short">Colorful veggies in a quick stir fry.</string>
+    <string name="recipe_7_long">A medley of fresh vegetables tossed in a savory soy-ginger sauce,
+        ready in minutes and perfect with rice or noodles.</string>
+
+    <string name="recipe_8">Chocolate Lava Cake</string>
+    <string name="recipe_8_short">Decadent dessert with molten center.</string>
+    <string name="recipe_8_long">A rich chocolate cake with a gooey molten center, served warm and
+        often paired with vanilla ice cream for indulgence.</string>
+
 </resources>
