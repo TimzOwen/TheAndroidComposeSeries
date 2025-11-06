@@ -1,6 +1,6 @@
 package com.example.happybirthdaycard.data
 
-import com.example.happybirthdaycard.Dessert
+import com.example.happybirthdaycard.model.Dessert
 import com.example.happybirthdaycard.R
 
 /**
