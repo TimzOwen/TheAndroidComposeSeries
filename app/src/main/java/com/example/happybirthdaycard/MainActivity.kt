@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.happybirthdaycard.ui.CupcakeApp
 import com.example.happybirthdaycard.ui.theme.HappyBirthdayCardTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,12 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HappyBirthdayCardTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-
-                }
+                CupcakeApp()
             }
         }
     }

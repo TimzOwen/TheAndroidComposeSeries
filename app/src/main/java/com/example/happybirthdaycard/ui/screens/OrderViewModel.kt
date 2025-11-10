@@ -43,6 +43,7 @@ class OrderViewModel : ViewModel() {
         }
     }
 
+
     fun resetOrder() {
         _orderUiState.value = OrderUiState(pickUpOptions = pickUpOptions())
     }
