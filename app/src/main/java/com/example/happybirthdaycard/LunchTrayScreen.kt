@@ -1,32 +1,33 @@
 package com.example.happybirthdaycard
 
 
-import androidx.compose.foundation.layout.Box
+import android.R.attr.contentDescription
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHost
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.happybirthdaycard.datasource.DataSource
-import com.example.happybirthdaycard.model.MenuItem
 import com.example.happybirthdaycard.screens.AccompanimentMenuScreen
 import com.example.happybirthdaycard.screens.CheckoutScreen
 import com.example.happybirthdaycard.screens.EntreeMenuScreen
@@ -34,31 +35,39 @@ import com.example.happybirthdaycard.screens.OrderViewModel
 import com.example.happybirthdaycard.screens.SideDishMenuScreen
 import com.example.happybirthdaycard.screens.StartOrderScreen
 
-enum class LunchTrayScreen {
-    START,
-    ENTREE_MENU,
-    SIDE_DISH_MENU,
-    ACCOMPANIMENT_MENU,
-    CHECKOUT
+enum class LunchTrayScreen(@StringRes val title: Int) {
+    START(title = R.string.app_name),
+    ENTREE_MENU(title = R.string.choose_entree),
+    SIDE_DISH_MENU(title = R.string.choose_side_dish),
+    ACCOMPANIMENT_MENU(title = R.string.choose_accompaniment),
+    CHECKOUT(title = R.string.order_checkout)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LunchTrayTopAppBar(
     modifier: Modifier = Modifier,
-    title: String,
+    @StringRes title: Int,
     canNavigateBack: Boolean = false,
     navigateUp: () -> Unit
 ) {
     TopAppBar(
-        title = { Text(text = title) },
-        modifier = modifier,
+        title = {
+            Row(
+                modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(stringResource(title))
+            }
+        },
         navigationIcon = {
             if (canNavigateBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = stringResource(R.string.back_button)
-                )
+                IconButton(onClick = navigateUp) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = stringResource(R.string.back_button)
+                    )
+                }
             }
         }
     )
@@ -77,9 +86,9 @@ fun LunchTrayApp() {
     Scaffold(
         topBar = {
             LunchTrayTopAppBar(
-                title =currentScreen.name,
+                title = currentScreen.title,
                 canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = {navController.navigateUp()}
+                navigateUp = { navController.navigateUp() },
             )
         }
     ) { innerPadding ->
