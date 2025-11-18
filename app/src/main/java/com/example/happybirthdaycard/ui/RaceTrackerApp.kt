@@ -22,6 +22,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,21 +38,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.happybirthdaycard.R
 import com.example.happybirthdaycard.ui.theme.RaceTrackerTheme
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun RaceTrackerApp() {
-    /**
-     * Note: To survive the configuration changes such as screen rotation, [rememberSaveable] should
-     * be used with custom Saver object. But to keep the example simple, and keep focus on
-     * Coroutines that implementation detail is stripped out.
-     */
-    val playerOne = remember {
-        RaceParticipant(name = "Player 1", progressIncrement = 1)
-    }
-    val playerTwo = remember {
-        RaceParticipant(name = "Player 2", progressIncrement = 2)
-    }
+
+    val playerOne = remember { RaceParticipant(name = "Player 1", progressIncrement = 1) }
+    val playerTwo = remember { RaceParticipant(name = "Player 2", progressIncrement = 2) }
     var raceInProgress by remember { mutableStateOf(false) }
+
+    if (raceInProgress) {
+        LaunchedEffect(playerOne, playerTwo) {
+            coroutineScope {
+                launch { playerOne.run() }
+                launch { playerTwo.run() }
+            }
+            raceInProgress = false
+        }
+    }
 
     RaceTrackerScreen(
         playerOne = playerOne,
@@ -151,14 +156,14 @@ private fun StatusIndicator(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
         ) {
             LinearProgressIndicator(
-            progress = { progressFactor },
-            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(dimensionResource(R.dimen.progress_indicator_height))
-                                .clip(RoundedCornerShape(dimensionResource(R.dimen.progress_indicator_corner_radius))),
-            color = ProgressIndicatorDefaults.linearColor,
-            trackColor = ProgressIndicatorDefaults.linearTrackColor,
-            strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+                progress = { progressFactor },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(dimensionResource(R.dimen.progress_indicator_height))
+                    .clip(RoundedCornerShape(dimensionResource(R.dimen.progress_indicator_corner_radius))),
+                color = ProgressIndicatorDefaults.linearColor,
+                trackColor = ProgressIndicatorDefaults.linearTrackColor,
+                strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
