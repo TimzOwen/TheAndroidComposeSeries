@@ -11,14 +11,14 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.happybirthdaycard.MarsPhotoApplication
 import com.example.happybirthdaycard.data.MarsPhotosRepository
-import com.example.happybirthdaycard.data.NetworkMarsPhotosRepository
+import com.example.happybirthdaycard.network.MarsPhoto
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.HttpException
 
 
 sealed interface MarsUiState {
-    data class Success(val photo: String) : MarsUiState
+    data class Success(val photo: List<MarsPhoto>) : MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }
@@ -33,12 +33,11 @@ class MarsViewModel(
         getMarsPhotos()
     }
 
-    private fun getMarsPhotos() {
+     fun getMarsPhotos() {
         viewModelScope.launch {
             marsUiState = MarsUiState.Loading
             marsUiState = try {
-                val listResult = marsPhotosRepository.getMarsPhots()
-                MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
+                MarsUiState.Success(marsPhotosRepository.getMarsPhots())
             } catch (e: IOException) {
                 MarsUiState.Error
             } catch (e: HttpException) {
