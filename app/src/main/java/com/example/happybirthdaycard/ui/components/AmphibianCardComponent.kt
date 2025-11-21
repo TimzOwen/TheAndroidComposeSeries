@@ -1,12 +1,9 @@
-package com.example.happybirthdaycard.ui.screens
+package com.example.happybirthdaycard.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -14,7 +11,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -28,13 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.happybirthdaycard.R
-import com.example.happybirthdaycard.ui.model.Amphibian
+import com.example.happybirthdaycard.domain.model.Amphibian
 import com.example.happybirthdaycard.ui.theme.HappyBirthdayCardTheme
 
 @Composable
 fun AmphibianCardComponent(
     amphibian: Amphibian,
-    modifier: Modifier = Modifier
 ) {
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -66,7 +61,7 @@ fun AmphibianCardComponent(
             AsyncImage(
                 model = amphibian.imageUrl,
                 contentScale = ContentScale.Crop,
-                contentDescription = null,
+                contentDescription = amphibian.name,
                 placeholder = painterResource(R.drawable.frog_res),
                 modifier = Modifier
                     .fillMaxWidth()

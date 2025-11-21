@@ -1,30 +1,33 @@
 package com.example.happybirthdaycard.ui.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.happybirthdaycard.ui.components.AmphibianCardComponent
+import com.example.happybirthdaycard.ui.viewmodel.AmphibianViewModel
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
-    amphibiansViewModel: AmphibiansViewModel = viewModel()
+    viewModel: AmphibianViewModel = hiltViewModel()
 ) {
 
-    val uistate by amphibiansViewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        LazyColumn {
-            items(uistate.amphibians) { amphibian ->
-                AmphibianCardComponent(
-                    amphibian = amphibian
-                )
+    when {
+        uiState.isLoading -> CircularProgressIndicator()
+        uiState.error != null -> Text("Error ${uiState.error}")
+        else -> {
+            LazyColumn(contentPadding = PaddingValues(16.dp)) {
+                items(uiState.amphibians) {
+                    AmphibianCardComponent(it)
+                }
             }
         }
     }
