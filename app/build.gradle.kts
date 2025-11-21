@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -57,4 +59,20 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.retrofit.v290)
+    implementation(libs.okhttp.v4110)
+    implementation(libs.coil.compose)
+    implementation(libs.kotlinx.serialization.json.v160)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+
+
+    // Coil
+    implementation(libs.coil.compose.v240)
 }
