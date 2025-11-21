@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.example.happybirthdaycard"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.happybirthdaycard"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -79,4 +79,5 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+    kapt(libs.javapoet)
 }
